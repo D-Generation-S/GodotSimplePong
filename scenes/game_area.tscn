@@ -1,0 +1,180 @@
+[gd_scene load_steps=20 format=3 uid="uid://d0t5vs5j8cb00"]
+
+[ext_resource type="Script" path="res://src/GameLogic/DashedMiddleSpawner.cs" id="1_2uhup"]
+[ext_resource type="Script" path="res://src/GameLogic/CloseGame.cs" id="1_m64i0"]
+[ext_resource type="Texture2D" uid="uid://chq8spykbvosi" path="res://assets/WhiteDotTexture.tres" id="2_2f3an"]
+[ext_resource type="Script" path="res://src/GameLogic/UiSetup.cs" id="3_nhlqk"]
+[ext_resource type="Script" path="res://src/GameLogic/ScoreScript.cs" id="4_7jjes"]
+[ext_resource type="Script" path="res://src/GameLogic/TimerScript.cs" id="5_tvvvn"]
+[ext_resource type="Script" path="res://src/GameLogic/BallLogic.cs" id="6_eoyt5"]
+[ext_resource type="AudioStream" uid="uid://dck0f0de7cqlr" path="res://assets/BallHit.mp3" id="8_ns41q"]
+[ext_resource type="Script" path="res://src/GameLogic/GoalScored.cs" id="8_xlgmk"]
+[ext_resource type="AudioStream" uid="uid://bdlot1lb7mnja" path="res://assets/TimerClick.mp3" id="8_y6liv"]
+[ext_resource type="AudioStream" uid="uid://br7d8jqi3ykq5" path="res://assets/Lost.mp3" id="9_j34o0"]
+[ext_resource type="AudioStream" uid="uid://bwuv6g7j5c1c" path="res://assets/BallGo.mp3" id="10_msu3p"]
+[ext_resource type="Script" path="res://src/MusicPlayer.cs" id="13_vnjh3"]
+[ext_resource type="AudioStream" uid="uid://cbwsgs21ey8al" path="res://assets/music/GameMusic.mp3" id="14_lxr2y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1aiwj"]
+size = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bd8kb"]
+size = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_60atq"]
+size = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qty84"]
+size = Vector2(64, 1216)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jgme5"]
+size = Vector2(64, 1216)
+
+[node name="GameArea" type="Node2D" node_paths=PackedStringArray("nodeToClose")]
+script = ExtResource("1_m64i0")
+scenePath = "res://scenes/main_menu.tscn"
+nodeToClose = NodePath(".")
+
+[node name="DashedMiddle" type="Node2D" parent="."]
+script = ExtResource("1_2uhup")
+textureToUse = ExtResource("2_2f3an")
+length = 25
+width = 10
+
+[node name="Borders" type="Node2D" parent="."]
+
+[node name="TopArea" type="Sprite2D" parent="Borders"]
+position = Vector2(960, 5)
+scale = Vector2(1920, 10)
+texture = ExtResource("2_2f3an")
+
+[node name="Area2D" type="Area2D" parent="Borders/TopArea"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/TopArea/Area2D"]
+shape = SubResource("RectangleShape2D_1aiwj")
+
+[node name="BottomArea" type="Sprite2D" parent="Borders"]
+position = Vector2(960, 1075)
+scale = Vector2(1920, 10)
+texture = ExtResource("2_2f3an")
+
+[node name="Area2D" type="Area2D" parent="Borders/BottomArea"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/BottomArea/Area2D"]
+shape = SubResource("RectangleShape2D_bd8kb")
+
+[node name="Overlay" type="Node2D" parent="."]
+
+[node name="CanvasGroup" type="CanvasGroup" parent="Overlay" node_paths=PackedStringArray("player1", "player1ScoreCount", "player2", "player2ScoreCount", "timer")]
+script = ExtResource("3_nhlqk")
+player1 = NodePath("Player1")
+player1ScoreCount = NodePath("Score1")
+player2 = NodePath("Player2")
+player2ScoreCount = NodePath("Score2")
+timer = NodePath("Timer")
+scoreHeight = 75
+
+[node name="Player1" type="RichTextLabel" parent="Overlay/CanvasGroup"]
+offset_right = 250.0
+offset_bottom = 24.0
+text = "Player 1
+"
+
+[node name="Player2" type="RichTextLabel" parent="Overlay/CanvasGroup"]
+offset_right = 250.0
+offset_bottom = 24.0
+text = "Player 2"
+
+[node name="Score1" type="RichTextLabel" parent="Overlay/CanvasGroup"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_7jjes")
+
+[node name="Score2" type="RichTextLabel" parent="Overlay/CanvasGroup"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_7jjes")
+
+[node name="Timer" type="RichTextLabel" parent="Overlay/CanvasGroup" node_paths=PackedStringArray("audioPlayer")]
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_font_sizes/normal_font_size = 50
+script = ExtResource("5_tvvvn")
+color = Color(0.478431, 0, 0.101961, 1)
+audioPlayer = NodePath("EffectPlayer")
+
+[node name="EffectPlayer" type="AudioStreamPlayer2D" parent="Overlay/CanvasGroup/Timer"]
+stream = ExtResource("8_y6liv")
+bus = &"Effects"
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Ball" type="Node2D" parent="." node_paths=PackedStringArray("ballCollider", "timer", "effectPlayer")]
+script = ExtResource("6_eoyt5")
+ballCollider = NodePath("BallCollider/CollisionShape2D")
+speed = 10
+timer = NodePath("Timer")
+effectPlayer = NodePath("EffectPlayer")
+wallHit = ExtResource("8_ns41q")
+ballLostTemplate = "res://prefabs/ball_explosion.tscn"
+ballLost = ExtResource("9_j34o0")
+ballStart = ExtResource("10_msu3p")
+
+[node name="BallVisuals" type="Sprite2D" parent="Ball"]
+scale = Vector2(20, 20)
+texture = ExtResource("2_2f3an")
+
+[node name="BallCollider" type="Area2D" parent="Ball"]
+scale = Vector2(20, 20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball/BallCollider"]
+scale = Vector2(0.9, 0.9)
+shape = SubResource("RectangleShape2D_60atq")
+
+[node name="Timer" type="Timer" parent="Ball"]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="EffectPlayer" type="AudioStreamPlayer2D" parent="Ball"]
+bus = &"Effects"
+
+[node name="ScoreBorder" type="Node2D" parent="."]
+
+[node name="Player1Goal" type="Node2D" parent="ScoreBorder"]
+position = Vector2(0, 540)
+script = ExtResource("8_xlgmk")
+
+[node name="TriggerAreaPlayer1Goal" type="Area2D" parent="ScoreBorder/Player1Goal"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreBorder/Player1Goal/TriggerAreaPlayer1Goal"]
+position = Vector2(-96, 4)
+shape = SubResource("RectangleShape2D_qty84")
+
+[node name="Player2Goal" type="Node2D" parent="ScoreBorder"]
+position = Vector2(1980, 540)
+script = ExtResource("8_xlgmk")
+
+[node name="TriggerAreaPlayer1Goal" type="Area2D" parent="ScoreBorder/Player2Goal"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreBorder/Player2Goal/TriggerAreaPlayer1Goal"]
+position = Vector2(36, 4)
+shape = SubResource("RectangleShape2D_jgme5")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = true
+bus = &"Music"
+script = ExtResource("13_vnjh3")
+files = Array[AudioStreamMP3]([ExtResource("14_lxr2y")])
+
+[connection signal="area_entered" from="Borders/TopArea/Area2D" to="Ball" method="OnWallHit"]
+[connection signal="area_entered" from="Borders/BottomArea/Area2D" to="Ball" method="OnWallHit"]
+[connection signal="TimerStarted" from="Ball" to="Overlay/CanvasGroup/Timer" method="TimerStarted"]
+[connection signal="TimerUpdated" from="Ball" to="Overlay/CanvasGroup/Timer" method="TimerChanged"]
+[connection signal="area_entered" from="Ball/BallCollider" to="ScoreBorder/Player1Goal" method="PlayerScoredGoal"]
+[connection signal="area_entered" from="Ball/BallCollider" to="ScoreBorder/Player2Goal" method="PlayerScoredGoal"]
+[connection signal="timeout" from="Ball/Timer" to="Overlay/CanvasGroup/Timer" method="TimerStopped"]
+[connection signal="UpdatePoints" from="ScoreBorder/Player1Goal" to="Overlay/CanvasGroup/Score2" method="IncreaseScore"]
+[connection signal="UpdatePoints" from="ScoreBorder/Player1Goal" to="Ball" method="ResetBall"]
+[connection signal="UpdatePoints" from="ScoreBorder/Player2Goal" to="Overlay/CanvasGroup/Score1" method="IncreaseScore"]
+[connection signal="UpdatePoints" from="ScoreBorder/Player2Goal" to="Ball" method="ResetBall"]
