@@ -1,0 +1,145 @@
+[gd_scene load_steps=11 format=3 uid="uid://336kmhvj5aky"]
+
+[ext_resource type="Script" path="res://src/MainMenu/OpenScene.cs" id="1_6blpu"]
+[ext_resource type="Script" path="res://src/GameLogic/CloseGame.cs" id="1_b2w6p"]
+[ext_resource type="Script" path="res://src/MainMenu/SoundSliderChanged.cs" id="3_8vjjt"]
+[ext_resource type="AudioStream" uid="uid://bdlot1lb7mnja" path="res://assets/TimerClick.mp3" id="4_26hv6"]
+[ext_resource type="AudioStream" uid="uid://dck0f0de7cqlr" path="res://assets/BallHit.mp3" id="4_rf8w5"]
+[ext_resource type="Script" path="res://src/MainMenu/SaveSoundButton.cs" id="5_p33aq"]
+[ext_resource type="AudioStream" uid="uid://bwuv6g7j5c1c" path="res://assets/BallGo.mp3" id="5_ufgos"]
+[ext_resource type="AudioStream" uid="uid://6lx5ebvv1rih" path="res://assets/ButtonSelection.mp3" id="7_lmo2t"]
+[ext_resource type="Script" path="res://src/MainMenu/AddBackgroundSceneComponent.cs" id="9_y66k3"]
+[ext_resource type="PackedScene" uid="uid://b7vtim4ikwyrc" path="res://scenes/menu_background.tscn" id="10_6y1so"]
+
+[node name="SettingMenu" type="CanvasLayer"]
+
+[node name="UiControl" type="Control" parent="." node_paths=PackedStringArray("nodeToClose")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b2w6p")
+scenePath = "res://scenes/main_menu.tscn"
+nodeToClose = NodePath("..")
+
+[node name="MarginContainer" type="MarginContainer" parent="UiControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 800
+theme_override_constants/margin_top = 350
+theme_override_constants/margin_right = 800
+theme_override_constants/margin_bottom = 400
+
+[node name="HBoxContainer" type="VBoxContainer" parent="UiControl/MarginContainer"]
+layout_mode = 2
+
+[node name="Sound" type="HBoxContainer" parent="UiControl/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Master" type="VBoxContainer" parent="UiControl/MarginContainer/HBoxContainer/Sound"]
+layout_mode = 2
+
+[node name="MasterLabel" type="Label" parent="UiControl/MarginContainer/HBoxContainer/Sound/Master"]
+layout_mode = 2
+text = "Master"
+
+[node name="MasterSlider" type="VSlider" parent="UiControl/MarginContainer/HBoxContainer/Sound/Master" node_paths=PackedStringArray("soundPlayer", "changedTimer")]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 3
+script = ExtResource("3_8vjjt")
+minDb = -15.0
+maxDb = 8.0
+exampleSound = ExtResource("4_rf8w5")
+soundPlayer = NodePath("AudioStreamPlayer2D")
+audioBusName = "Master"
+changedTimer = NodePath("Timer")
+shouldHaveInitialFocus = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="UiControl/MarginContainer/HBoxContainer/Sound/Master/MasterSlider"]
+
+[node name="Timer" type="Timer" parent="UiControl/MarginContainer/HBoxContainer/Sound/Master/MasterSlider"]
+
+[node name="Effects" type="VBoxContainer" parent="UiControl/MarginContainer/HBoxContainer/Sound"]
+layout_mode = 2
+
+[node name="EffectsLabel" type="Label" parent="UiControl/MarginContainer/HBoxContainer/Sound/Effects"]
+layout_mode = 2
+text = "Effects"
+
+[node name="EffectsSlider" type="VSlider" parent="UiControl/MarginContainer/HBoxContainer/Sound/Effects" node_paths=PackedStringArray("soundPlayer", "changedTimer")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+script = ExtResource("3_8vjjt")
+minDb = -15.0
+maxDb = 8.0
+exampleSound = ExtResource("5_ufgos")
+soundPlayer = NodePath("AudioStreamPlayer2D")
+audioBusName = "Effects"
+changedTimer = NodePath("Timer")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="UiControl/MarginContainer/HBoxContainer/Sound/Effects/EffectsSlider"]
+bus = &"Effects"
+
+[node name="Timer" type="Timer" parent="UiControl/MarginContainer/HBoxContainer/Sound/Effects/EffectsSlider"]
+
+[node name="Music" type="VBoxContainer" parent="UiControl/MarginContainer/HBoxContainer/Sound"]
+layout_mode = 2
+
+[node name="MusicLabel" type="Label" parent="UiControl/MarginContainer/HBoxContainer/Sound/Music"]
+layout_mode = 2
+text = "Music"
+
+[node name="MusicSlider" type="VSlider" parent="UiControl/MarginContainer/HBoxContainer/Sound/Music" node_paths=PackedStringArray("soundPlayer", "changedTimer")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+script = ExtResource("3_8vjjt")
+minDb = -15.0
+maxDb = 8.0
+exampleSound = ExtResource("4_26hv6")
+soundPlayer = NodePath("AudioStreamPlayer2D")
+audioBusName = "Music"
+changedTimer = NodePath("Timer")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="UiControl/MarginContainer/HBoxContainer/Sound/Music/MusicSlider"]
+bus = &"Effects"
+
+[node name="Timer" type="Timer" parent="UiControl/MarginContainer/HBoxContainer/Sound/Music/MusicSlider"]
+
+[node name="Buttons" type="HBoxContainer" parent="UiControl/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="UiControl/MarginContainer/HBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Save"
+script = ExtResource("5_p33aq")
+
+[node name="AbortButton" type="Button" parent="UiControl/MarginContainer/HBoxContainer/Buttons" node_paths=PackedStringArray("nodeToClose")]
+layout_mode = 2
+text = "Abort"
+script = ExtResource("1_6blpu")
+scenePath = "res://scenes/main_menu.tscn"
+nodeToClose = NodePath("../../../../..")
+selectedSound = ExtResource("7_lmo2t")
+
+[node name="BackgroundSpawner" type="Node" parent="."]
+script = ExtResource("9_y66k3")
+backgroundScene = ExtResource("10_6y1so")
+
+[connection signal="CanCloseNow" from="UiControl/MarginContainer/HBoxContainer/Buttons/SaveButton" to="UiControl/MarginContainer/HBoxContainer/Buttons/AbortButton" method="TriggerPressed"]
+[connection signal="CanCloseNow" from="UiControl/MarginContainer/HBoxContainer/Buttons/SaveButton" to="BackgroundSpawner" method="RemoveScene"]
+[connection signal="pressed" from="UiControl/MarginContainer/HBoxContainer/Buttons/AbortButton" to="BackgroundSpawner" method="RemoveScene"]

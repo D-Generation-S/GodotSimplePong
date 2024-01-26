@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7vtim4ikwyrc"]
+
+[ext_resource type="Texture2D" uid="uid://chq8spykbvosi" path="res://assets/WhiteDotTexture.tres" id="1_igbjq"]
+[ext_resource type="Script" path="res://src/MainMenu/RandomUpDownMove.cs" id="2_sblqh"]
+
+[node name="MenuBackground" type="Node2D"]
+
+[node name="Borders" type="Node2D" parent="."]
+
+[node name="TopArea" type="Sprite2D" parent="Borders"]
+position = Vector2(960, 5)
+scale = Vector2(1920, 10)
+texture = ExtResource("1_igbjq")
+
+[node name="BottomArea" type="Sprite2D" parent="Borders"]
+position = Vector2(960, 1075)
+scale = Vector2(1920, 10)
+texture = ExtResource("1_igbjq")
+
+[node name="RightPlayer" type="Node2D" parent="." node_paths=PackedStringArray("timer")]
+position = Vector2(1900, 540)
+scale = Vector2(15, 150)
+script = ExtResource("2_sblqh")
+timer = NodePath("Timer")
+timerWaitTime = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="RightPlayer"]
+texture = ExtResource("1_igbjq")
+
+[node name="Timer" type="Timer" parent="RightPlayer"]
+
+[node name="LeftPlayer" type="Node2D" parent="." node_paths=PackedStringArray("timer")]
+position = Vector2(20, 540)
+scale = Vector2(15, 150)
+script = ExtResource("2_sblqh")
+timer = NodePath("Timer")
+timerWaitTime = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="LeftPlayer"]
+texture = ExtResource("1_igbjq")
+
+[node name="Timer" type="Timer" parent="LeftPlayer"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_top = 250
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 50
+text = "SIMPLE PONG"

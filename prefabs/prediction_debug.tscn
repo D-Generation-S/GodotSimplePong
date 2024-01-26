@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cep8yaaru8qg7"]
+
+[ext_resource type="Shader" uid="uid://btj26awbltust" path="res://prefabs/prediction_debug.tres" id="1_ktanq"]
+[ext_resource type="Texture2D" uid="uid://chq8spykbvosi" path="res://assets/WhiteDotTexture.tres" id="1_q2m55"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skwi7"]
+shader = ExtResource("1_ktanq")
+shader_parameter/ColorParameter = Color(0.572549, 0, 0.705882, 1)
+
+[node name="PredictionDebug" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_skwi7")
+scale = Vector2(15, 15)
+texture = ExtResource("1_q2m55")

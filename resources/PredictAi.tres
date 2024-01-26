@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AiDescriptionResource" load_steps=2 format=3 uid="uid://oaev5cn5to4h"]
+
+[ext_resource type="Script" path="res://src/Resources/AiDescriptionResource.cs" id="1_yhnxp"]
+
+[resource]
+script = ExtResource("1_yhnxp")
+displayName = "Predict Ai"
+aiNodePath = "res://prefabs/ai_nodes/PredictAi.tscn"

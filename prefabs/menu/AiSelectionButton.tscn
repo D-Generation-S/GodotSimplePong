@@ -1,0 +1,25 @@
+[gd_scene load_steps=7 format=3 uid="uid://bv5rtvjnkyc5m"]
+
+[ext_resource type="Script" path="res://src/MainMenu/AiSelectionButton.cs" id="1_12pr1"]
+[ext_resource type="AudioStream" uid="uid://6lx5ebvv1rih" path="res://assets/ButtonSelection.mp3" id="2_4su00"]
+[ext_resource type="Script" path="res://prefabs/menu/StartAiGameButton.cs" id="3_ipkke"]
+[ext_resource type="PackedScene" uid="uid://d0t5vs5j8cb00" path="res://scenes/game_area.tscn" id="4_orbyk"]
+[ext_resource type="PackedScene" uid="uid://cr5alt2yci3on" path="res://prefabs/player_1.tscn" id="4_ytm0f"]
+[ext_resource type="PackedScene" uid="uid://db1kwk8i1101n" path="res://prefabs/simple_ai.tscn" id="6_7cwhj"]
+
+[node name="AiSelectionButton" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_12pr1")
+selectedSound = ExtResource("2_4su00")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("3_ipkke")
+gameScene = ExtResource("4_orbyk")
+player1 = ExtResource("4_ytm0f")
+aiPlayerTemplate = ExtResource("6_7cwhj")
+
+[connection signal="pressed" from="." to="Node" method="StartGame"]

@@ -1,0 +1,91 @@
+[gd_scene load_steps=11 format=3 uid="uid://djtvafy4kna7"]
+
+[ext_resource type="Script" path="res://src/MainMenu/StartGameButtonScript.cs" id="1_oh3qo"]
+[ext_resource type="Script" path="res://src/MainMenu/InitialBusLoadingScript.cs" id="1_pw2jp"]
+[ext_resource type="Script" path="res://src/MainMenu/QuitGameButtonScript.cs" id="1_xupd3"]
+[ext_resource type="PackedScene" uid="uid://d0t5vs5j8cb00" path="res://scenes/game_area.tscn" id="2_bekao"]
+[ext_resource type="PackedScene" uid="uid://cr5alt2yci3on" path="res://prefabs/player_1.tscn" id="3_dqyd1"]
+[ext_resource type="PackedScene" uid="uid://c3g8lt4pfo7li" path="res://prefabs/player_2.tscn" id="4_i02ba"]
+[ext_resource type="AudioStream" uid="uid://6lx5ebvv1rih" path="res://assets/ButtonSelection.mp3" id="5_fvxur"]
+[ext_resource type="Script" path="res://src/MainMenu/OpenScene.cs" id="5_k7oq3"]
+[ext_resource type="Script" path="res://src/MainMenu/AddBackgroundSceneComponent.cs" id="10_4sd7n"]
+[ext_resource type="PackedScene" uid="uid://b7vtim4ikwyrc" path="res://scenes/menu_background.tscn" id="11_uu4f2"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pw2jp")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.5
+offset_top = -124.0
+offset_right = 192.5
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="StartGame" type="Button" parent="MainMenu/VBoxContainer" node_paths=PackedStringArray("nodeToClose")]
+layout_mode = 2
+text = "Singleplayer"
+script = ExtResource("5_k7oq3")
+scenePath = "res://scenes/single_player_difficulty_selection.tscn"
+nodeToClose = NodePath("../../..")
+shouldGetInitialFocus = true
+
+[node name="StartMultiplayer" type="Button" parent="MainMenu/VBoxContainer" node_paths=PackedStringArray("nodeToClose")]
+layout_mode = 2
+text = "Multiplayer
+"
+script = ExtResource("1_oh3qo")
+scene = ExtResource("2_bekao")
+player1 = ExtResource("3_dqyd1")
+player2 = ExtResource("4_i02ba")
+nodeToClose = NodePath("../../..")
+selectedSound = ExtResource("5_fvxur")
+
+[node name="HowToPlay" type="Button" parent="MainMenu/VBoxContainer" node_paths=PackedStringArray("nodeToClose")]
+layout_mode = 2
+text = "How to play"
+script = ExtResource("5_k7oq3")
+scenePath = "res://scenes/how_to_play.tscn"
+nodeToClose = NodePath("../../..")
+selectedSound = ExtResource("5_fvxur")
+
+[node name="Settings" type="Button" parent="MainMenu/VBoxContainer" node_paths=PackedStringArray("nodeToClose")]
+layout_mode = 2
+text = "Settings"
+script = ExtResource("5_k7oq3")
+scenePath = "res://scenes/settings_menu.tscn"
+nodeToClose = NodePath("../../..")
+selectedSound = ExtResource("5_fvxur")
+
+[node name="Quit" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Close"
+script = ExtResource("1_xupd3")
+selectedSound = ExtResource("5_fvxur")
+
+[node name="BackgroundSpawner" type="Node" parent="."]
+script = ExtResource("10_4sd7n")
+backgroundScene = ExtResource("11_uu4f2")
+
+[connection signal="pressed" from="MainMenu/VBoxContainer/StartGame" to="BackgroundSpawner" method="RemoveScene"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/StartMultiplayer" to="BackgroundSpawner" method="RemoveScene"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/HowToPlay" to="BackgroundSpawner" method="RemoveScene"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Settings" to="BackgroundSpawner" method="RemoveScene"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Quit" to="BackgroundSpawner" method="RemoveScene"]
