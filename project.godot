@@ -11,6 +11,8 @@ config_version=5
 [application]
 
 config/name="SimplePong"
+config/description="Simple clone of the game pong"
+config/version="0.1.0"
 config/tags=PackedStringArray("clone", "learning", "traning")
 run/main_scene="res://scenes/main_menu.tscn"
 config/use_custom_user_dir=true
@@ -22,6 +24,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=3
 window/size/initial_position_type=2
 window/size/resizable=false
 

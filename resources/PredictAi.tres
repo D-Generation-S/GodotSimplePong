@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_yhnxp")
-displayName = "Predict Ai"
+displayName = "Normal Ai"
 aiNodePath = "res://prefabs/ai_nodes/PredictAi.tscn"

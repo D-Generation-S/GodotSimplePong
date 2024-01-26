@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("2_u6ubn")
-displayName = "Chase Ai"
+displayName = "Simple Ai"
 aiNodePath = "res://prefabs/ai_nodes/ChaseAi.tscn"
